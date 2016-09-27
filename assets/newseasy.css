@@ -1,0 +1,104 @@
+/**
+ * Contao 3 Extension [mhgNewsEasy]
+ *
+ * Copyright (c) 2016 Medienhaus Gersöne UG | Pierre Gersöne
+ *
+ * @package     mhgNewsEasy
+ * @link        http://www.medienhaus-gersoene.de
+ * @license     propitary licence
+ */
+
+#tl_navigation li {
+    position: relative;
+}
+
+#newseasy {
+    margin-bottom:10px;
+}
+
+#newseasy .newseasy_level_1_group {
+    height:15px;
+}
+
+#tl_navigation .newseasy_level_2 {
+    padding: 5px 0 0 20px;
+    overflow: hidden;
+    width: auto;
+}
+
+#tl_navigation .newseasy_mouseover .newseasy_level_2,
+#tl_navigation .newseasy_contextmenu .newseasy_level_2 {
+    padding: 0;
+    margin-top: 5px;
+}
+
+#tl_navigation .newseasy_level_2 li {
+    float: left;
+    margin: 0 8px 0 0;
+    overflow: hidden;
+    width: auto;
+}
+
+#tl_navigation .newseasy_long .newseasy_level_2 li {
+    float: none;
+    margin: 0;
+}
+
+#tl_navigation .newseasy_mouseover .newseasy_level_2 li,
+#tl_navigation .newseasy_contextmenu .newseasy_level_2 li {
+    margin-bottom: 2px;
+}
+
+#tl_navigation .newseasy_level_2 li a,
+#newseasy.newseasy_mouseover a.navigation,
+#newseasy.newseasy_contextmenu a.navigation {
+    padding: 0;
+    display: block;
+}
+
+#newseasy.newseasy_long .icon {
+    float: left;
+    margin: 2px 6px 0 0;
+    display: block;
+}
+
+#newseasy.newseasy_mouseover,
+#newseasy.newseasy_contextmenu,
+#newseasy.newseasy_be_mod {
+    width: 135px;
+    position: absolute;
+    left: 20px;
+    top: 18px;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    padding: 5px 10px;
+    opacity: 0;
+    z-index: 99;
+    visibility: hidden;
+    border-radius: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#newseasy.newseasy_mouseover li.newseasy_level_1_group,
+#newseasy.newseasy_contextmenu li.newseasy_level_1_group {
+    border-bottom: 1px solid #bbb;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+#newseasy.newseasy_mouseover li.newseasy_level_1_group:last-child,
+#newseasy.newseasy_contextmenu li.newseasy_level_1_group:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+#newseasy,
+#newseasy.newseasy_doNotLaunch {
+    display: none;
+}
+
+#newseasy.ready {
+    display: block;
+}
