@@ -18,6 +18,7 @@
 
 #newseasy .newseasy_level_1_group {
     height:15px;
+    overflow: hidden;
 }
 
 #tl_navigation .newseasy_level_2 {
