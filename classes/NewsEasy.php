@@ -26,8 +26,9 @@ class NewsEasy extends \Contao\Backend {
         parent::__construct();
         $user = \BackendUser::getInstance();
         
-        // we never need to do anything at all if the user has no access to the news  module
-        if (!$user->admin || \Input::get('popup')) {
+        // we never need to do anything at all if the user has 
+        // - no admin access, - module is disabled
+        if ( !$user->admin || $user->ne_enable != 1 ) {
             $this->blnLoadNE = false;
         }
     }
@@ -117,20 +118,15 @@ class NewsEasy extends \Contao\Backend {
 
         /* get sorting of the backend newsarchive */
         $session = $this->Session->getData();
-        $sorting =  $session['sorting']['tl_news'] ? $session['sorting']['tl_news'] : '';
-		
-        if ( $sorting == 'author') {
-			$sorting = 'author, date DESC';
-		}
+        $sorting = $session['sorting']['tl_news'] ? $session['sorting']['tl_news'] : 'tstamp' ;
         
-		if(!empty($sorting)) {
-			$sorting = ' ORDER BY ' . $sorting;
-		}	
-		
+        
+        if ( $sorting == 'author') $sorting = 'author, date DESC';
+        
         /* get content of every archive */
         foreach ($arrNewsArchives as $newsArchiveId => $newsArchiveTitle ) {
             $intNewsArchiveId = (int) $newsArchiveId;
-            $objNews = \Database::getInstance()->prepare('SELECT id, headline FROM tl_news WHERE pid=?' . $sorting)->execute($intNewsArchiveId);
+            $objNews = \Database::getInstance()->prepare('SELECT id, headline FROM tl_news WHERE pid=? ORDER BY ' . $sorting)->execute($intNewsArchiveId);
             while ($objNews->next() )
                 $news[$objNews->id]['newsHeadline'] = $objNews->headline and 
                     $news[$objNews->id]['newsHref'] = \Environment::get('script') . '?do=news&amp;table=tl_content&amp;id=' . $objNews->id . '&amp;rt=' . REQUEST_TOKEN;
