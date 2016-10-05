@@ -22,7 +22,7 @@ $GLOBALS['TL_DCA']['tl_user']['fields']['ne_enable'] = array
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => array('submitOnChange' => true, 'tl_class' => 'tl_checkbox_single_container'),
-    'sql' => 'char(1) NOT NULL default ""'
+    'sql' => "char(1) NOT NULL default '0'"
 );
 $GLOBALS['TL_DCA']['tl_user']['fields']['ne_mode'] = array
     (
@@ -32,7 +32,7 @@ $GLOBALS['TL_DCA']['tl_user']['fields']['ne_mode'] = array
     'options' => array('inject', 'be_mod'),
     'reference' => &$GLOBALS['TL_LANG']['tl_user'],
     'eval' => array('tl_class' => 'clr', 'submitOnChange' => true),
-    'sql' => 'varchar(32) NOT NULL default "inject" '
+    'sql' => "varchar(32) NOT NULL default 'inject'"
 );
 
 $GLOBALS['TL_DCA']['tl_user']['fields']['ne_bemodRef'] = array
@@ -43,7 +43,7 @@ $GLOBALS['TL_DCA']['tl_user']['fields']['ne_bemodRef'] = array
     'options' => array_keys($GLOBALS['BE_MOD']),
     'reference' => &$GLOBALS['TL_LANG']['MOD'],
     'eval' => array('tl_class' => 'clr', 'includeBlankOption' => true),
-    'sql' => 'varchar(32) NOT NULL default ""'
+    'sql' => "varchar(32) NOT NULL default ''"
 );
 $GLOBALS['TL_DCA']['tl_user']['fields']['ne_short'] = array
 (
@@ -51,7 +51,7 @@ $GLOBALS['TL_DCA']['tl_user']['fields']['ne_short'] = array
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => array('tl_class' => 'clr'),
-    'sql' => 'char(1) NOT NULL default ""'
+    'sql' => "char(1) NOT NULL default '0'"
 );
 
 class tl_user_newseasy extends Backend {

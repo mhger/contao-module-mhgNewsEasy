@@ -108,9 +108,9 @@ class NewsEasy extends \Contao\Backend {
      */
     protected function prepareBackendNavigationArray() {
         /* get all news archives */
-        $objNewsArchives = \Database::getInstance()->prepare('SELECT id, title FROM tl_news_archive ORDER BY tstamp DESC')->execute();
+        $objNewsArchives = \Database::getInstance()->prepare('SELECT id, title, ne_shorttitle FROM tl_news_archive WHERE ne_stealth <> 1 ORDER BY tstamp DESC')->execute();
         while ( $objNewsArchives->next() ) 
-            $arrNewsArchives[$objNewsArchives->id]['archiveTitle'] = $objNewsArchives->title and
+            $arrNewsArchives[$objNewsArchives->id]['archiveTitle'] = !empty($objNewsArchives->ne_shorttitle) ? $objNewsArchives->ne_shorttitle : $objNewsArchives->title and
                 $arrNewsArchives[$objNewsArchives->id]['archiveHref'] = \Environment::get('script') . '?do=news&amp;table=tl_news&amp;id=' . $objNewsArchives->id . '&amp;rt=' . REQUEST_TOKEN;
                 
         if (!is_array($arrNewsArchives)) 
