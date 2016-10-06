@@ -143,7 +143,7 @@ class NewsEasy extends \Contao\Backend {
                 $arrNews[$objNews->id]['newsHref'] = \Environment::get('script') . '?do=news&amp;table=tl_content&amp;id=' . $objNews->id . '&amp;rt=' . REQUEST_TOKEN;
             }
 
-            if (empty($arrNews) && $this->objUser->ne_mode == 'be_mod') {
+            if (empty($arrNews) && $this->objUser->ne_mode == 'be_mod' && !$this->objUser->ne_short) {
                 unset($arrNewsArchives[$newsArchiveId]);
             } else {
                 $arrNewsArchives[$newsArchiveId]['news'] = $arrNews;
