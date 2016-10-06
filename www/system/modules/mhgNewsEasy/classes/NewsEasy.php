@@ -108,30 +108,37 @@ class NewsEasy extends \Contao\Backend {
      * @return array|false
      */
     protected function prepareBackendNavigationArray() {
+        $arrNewsArchives = array();
+        
         /* get all news archives */
         $objNewsArchives = \Database::getInstance()->prepare('SELECT id, title, ne_shorttitle FROM tl_news_archive WHERE ne_stealth <> 1 ORDER BY ne_shorttitle ASC')->execute();
-        while ($objNewsArchives->next())
-            $arrNewsArchives[$objNewsArchives->id]['archiveTitle'] = !empty($objNewsArchives->ne_shorttitle) ? $objNewsArchives->ne_shorttitle : $objNewsArchives->title and
-                    $arrNewsArchives[$objNewsArchives->id]['archiveHref'] = \Environment::get('script') . '?do=news&amp;table=tl_news&amp;id=' . $objNewsArchives->id . '&amp;rt=' . REQUEST_TOKEN;
+        while ($objNewsArchives->next()) {
+            $arrNewsArchives[$objNewsArchives->id]['archiveTitle'] = !empty($objNewsArchives->ne_shorttitle) ? $objNewsArchives->ne_shorttitle : $objNewsArchives->title;
+            $arrNewsArchives[$objNewsArchives->id]['archiveHref'] = \Environment::get('script') . '?do=news&amp;table=tl_news&amp;id=' . $objNewsArchives->id . '&amp;rt=' . REQUEST_TOKEN;
+        }
 
-        if (!is_array($arrNewsArchives))
+        if (empty($arrNewsArchives)) {
             return false;
+        }
 
         /* get sorting of the backend newsarchive */
         $session = $this->Session->getData();
         $sorting = $session['sorting']['tl_news'] ? $session['sorting']['tl_news'] : 'tstamp';
 
 
-        if ($sorting == 'author')
+        if ($sorting == 'author') {
             $sorting = 'author, date DESC';
+        }
 
         /* get content of every archive */
         foreach ($arrNewsArchives as $newsArchiveId => $newsArchiveTitle) {
+            $news = array();
             $intNewsArchiveId = (int) $newsArchiveId;
             $objNews = \Database::getInstance()->prepare('SELECT id, headline FROM tl_news WHERE pid=? ORDER BY ' . $sorting)->execute($intNewsArchiveId);
-            while ($objNews->next())
-                $news[$objNews->id]['newsHeadline'] = $objNews->headline and
-                        $news[$objNews->id]['newsHref'] = \Environment::get('script') . '?do=news&amp;table=tl_content&amp;id=' . $objNews->id . '&amp;rt=' . REQUEST_TOKEN;
+            while ($objNews->next()) {
+                $news[$objNews->id]['newsHeadline'] = $objNews->headline;
+                $news[$objNews->id]['newsHref'] = \Environment::get('script') . '?do=news&amp;table=tl_content&amp;id=' . $objNews->id . '&amp;rt=' . REQUEST_TOKEN;
+            }
 
             $arrNewsArchives[$newsArchiveId]['news'] = $news;
         }
@@ -163,8 +170,9 @@ class NewsEasy extends \Contao\Backend {
 
         //get the news archive. if empty, return standard
         $arrNewsArchive = $this->prepareBackendNavigationArray(true);
-        if (!is_array($arrNewsArchive) || empty($arrNewsArchive))
+        if (!is_array($arrNewsArchive) || empty($arrNewsArchive)) {
             return $arrModules;
+        }
 
         $session = $this->Session->getData();
         $arrNewsNavigation = array();
@@ -201,7 +209,6 @@ class NewsEasy extends \Contao\Backend {
 
             foreach ($arrNewsArchive as $intNewsArchiveId => $newsArchiveContent) {
                 $strKey = 'newsArchive_' . $intNewsArchiveId;
-
 
                 $arrNewsNavigation[$strKey]['icon'] = is_array($newsArchiveContent['news']) ? 'modMinus.gif' : '';
                 $arrNewsNavigation[$strKey]['title'] = specialchars($newsArchiveContent['archiveTitle']);
