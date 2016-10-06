@@ -18,18 +18,20 @@ class NewsEasy extends \Contao\Backend {
      * Load NewsEasy
      * @var bool
      */
-    private $blnLoadNE = true;
+    protected $blnLoadNE = true;
+    protected $userMode = NULL;
+    protected $objUser = NULL;
 
     /**
      * Initialize the object, import the user class and the tl_theme lang file
      */
     public function __construct() {
         parent::__construct();
-        $user = \BackendUser::getInstance();
+        $this->objUser = \BackendUser::getInstance();
 
         // we never need to do anything at all if the user has 
         // - no admin access, - module is disabled
-        if (!$user->admin || $user->ne_enable != 1) {
+        if (!$this->objUser->admin || $this->objUser->ne_enable != 1) {
             $this->blnLoadNE = false;
         }
     }
@@ -79,14 +81,15 @@ class NewsEasy extends \Contao\Backend {
      */
     protected function generateContainerContent() {
         /* generate template content */
-        $user = \BackendUser::getInstance();
         $arrNavArray = $this->prepareBackendNavigationArray();
+
         if (!$arrNavArray) {
             return '';
         }
+
         $objTemplate = new \BackendTemplate('be_newseasy');
-        $objTemplate->mode = $user->ne_mode;
-        $objTemplate->class = 'newseasy_' . $user->ne_mode;
+        $objTemplate->mode = $this->objUser->ne_mode;
+        $objTemplate->class = 'newseasy_' . $this->objUser->ne_mode;
         $objTemplate->newsarchives = $arrNavArray;
 
         return $objTemplate->parse();
@@ -109,9 +112,9 @@ class NewsEasy extends \Contao\Backend {
      */
     protected function prepareBackendNavigationArray() {
         $arrNewsArchives = array();
-        
+
         /* get all news archives */
-        $objNewsArchives = \Database::getInstance()->prepare('SELECT id, title, ne_shorttitle FROM tl_news_archive WHERE ne_stealth <> 1 ORDER BY ne_shorttitle ASC')->execute();
+        $objNewsArchives = \Database::getInstance()->prepare('SELECT id, title, ne_shorttitle FROM tl_news_archive WHERE ne_stealth <> 1 AND title <> "" ORDER BY ne_shorttitle ASC')->execute();
         while ($objNewsArchives->next()) {
             $arrNewsArchives[$objNewsArchives->id]['archiveTitle'] = !empty($objNewsArchives->ne_shorttitle) ? $objNewsArchives->ne_shorttitle : $objNewsArchives->title;
             $arrNewsArchives[$objNewsArchives->id]['archiveHref'] = \Environment::get('script') . '?do=news&amp;table=tl_news&amp;id=' . $objNewsArchives->id . '&amp;rt=' . REQUEST_TOKEN;
@@ -132,16 +135,21 @@ class NewsEasy extends \Contao\Backend {
 
         /* get content of every archive */
         foreach ($arrNewsArchives as $newsArchiveId => $newsArchiveTitle) {
-            $news = array();
+            $arrNews = array();
             $intNewsArchiveId = (int) $newsArchiveId;
             $objNews = \Database::getInstance()->prepare('SELECT id, headline FROM tl_news WHERE pid=? ORDER BY ' . $sorting)->execute($intNewsArchiveId);
             while ($objNews->next()) {
-                $news[$objNews->id]['newsHeadline'] = $objNews->headline;
-                $news[$objNews->id]['newsHref'] = \Environment::get('script') . '?do=news&amp;table=tl_content&amp;id=' . $objNews->id . '&amp;rt=' . REQUEST_TOKEN;
+                $arrNews[$objNews->id]['newsHeadline'] = $objNews->headline;
+                $arrNews[$objNews->id]['newsHref'] = \Environment::get('script') . '?do=news&amp;table=tl_content&amp;id=' . $objNews->id . '&amp;rt=' . REQUEST_TOKEN;
             }
 
-            $arrNewsArchives[$newsArchiveId]['news'] = $news;
+            if (empty($arrNews) && $this->objUser->ne_mode == 'be_mod') {
+                unset($arrNewsArchives[$newsArchiveId]);
+            } else {
+                $arrNewsArchives[$newsArchiveId]['news'] = $arrNews;
+            }
         }
+
         return $arrNewsArchives;
     }
 
@@ -156,15 +164,13 @@ class NewsEasy extends \Contao\Backend {
             return $arrModules;
         }
 
-        $user = \BackendUser::getInstance();
-
         // add some CSS classes to the design module
         $strClass = 'newseasy_toggle ';
         $strClass .= ($arrModules['content']['modules']['news']['icon'] == 'modPlus.gif') ? 'newseasy_collapsed' : 'newseasy_expanded';
         $arrModules['content']['modules']['news']['class'] = ' ' . trim($arrModules['content']['modules']['news']['class']) . ((trim($arrModules['content']['modules']['news']['class'])) ? ' ' : '') . $strClass;
 
         // if not backend_mode, git out
-        if ($user->ne_mode != 'be_mod') {
+        if ($this->objUser->ne_mode != 'be_mod') {
             return $arrModules;
         }
 
@@ -178,7 +184,7 @@ class NewsEasy extends \Contao\Backend {
         $arrNewsNavigation = array();
 
         /* short list */
-        if ($user->ne_short == 1) {
+        if ($this->objUser->ne_short == 1) {
             $arrNewsNavigation['headliner']['icon'] = 'modMinus.gif';
             $arrNewsNavigation['headliner']['title'] = 'Nachrichtenarchive';
             $arrNewsNavigation['headliner']['label'] = 'Nachrichtenarchive';
@@ -246,7 +252,7 @@ class NewsEasy extends \Contao\Backend {
         }
 
         /* return navigation */
-        if (\BackendUser::getInstance()->ne_bemodRef) {
+        if ($this->objUser->ne_bemodRef) {
             /* if a reference is given */
             $intPosition = array_search(\BackendUser::getInstance()->ne_bemodRef, array_keys($arrModules));
             $intPosition++;
