@@ -7,7 +7,7 @@
  * @link        http://www.medienhaus-gersoene.de
  * @license     propitary licence
  */
-
+/*sprintf(' style="background-image:url(\'%s\');background-repeat:no-repeat;padding:2px 2px 2px 11px;background-position-x:-3px;"', $img),**/
 #tl_navigation li {
     position: relative;
 }
@@ -17,8 +17,9 @@
 }
 
 #newseasy .newseasy_level_1_group {
-    height:15px;
+    height:21px;
     overflow: hidden;
+	white-space: nowrap;
 }
 
 #tl_navigation .newseasy_level_2 {
@@ -102,4 +103,8 @@
 
 #newseasy.ready {
     display: block;
+}
+
+a.navigation.newseasy {
+	background-image: url("images/edit.gif");
 }

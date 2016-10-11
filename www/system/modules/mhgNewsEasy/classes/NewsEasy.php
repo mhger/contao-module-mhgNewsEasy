@@ -192,7 +192,6 @@ class NewsEasy extends \Contao\Backend {
 
             foreach ($arrNewsArchive as $intNewsArchiveId => $newsArchiveContent) {
                 $strArchiveKey = 'newsArchive_' . $intNewsArchiveId;
-                $img = 'system/themes/default/images/edit.gif';
                 $href = $newsArchiveContent['archiveHref'];
 
                 if (!$blnShowAll && isset($session['backend_modules'][$strKey]) && $session['backend_modules'][$strKey] < 1) {
@@ -205,7 +204,8 @@ class NewsEasy extends \Contao\Backend {
                 $arrNewsNavigation['headliner']['modules'][$strArchiveKey] = [
                     'title' => specialchars($newsArchiveContent['archiveTitle']),
                     'href' => $href,
-                    'icon' => sprintf(' style="background-image:url(\'%s\');background-repeat:no-repeat;padding:2px 2px 2px 11px;background-position-x:-3px;"', $img),
+					'class' => 'navigation newseasy',					
+                    'icon' => $img,
                     'label' => specialchars($newsArchiveContent['archiveTitle'])
                 ];
             }
@@ -240,7 +240,8 @@ class NewsEasy extends \Contao\Backend {
                         $arrNewsNavigation[$strKey]['modules'][$strNewsId] = [
                             'title' => $title,
                             'href' => $href,
-                            'icon' => sprintf(' style="background-image:url(\'%s\');background-repeat:no-repeat;padding:2px 2px 2px 11px;background-position-x:-3px;"', $img),
+							'class' => 'navigation newseasy',
+                            'icon' => $img,
                             'label' => $label
                         ];
                     }
