@@ -31,7 +31,6 @@ var NewsEasy = new Class({
         // initialize newseasy again when someone toggles the section
         this.newsSection.addEvent('click', function () {
             // update state
-            alert('huhu');
             self.isCollapsed = !self.isCollapsed;
             self.init();
         });
