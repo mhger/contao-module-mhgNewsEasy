@@ -31,7 +31,7 @@ class NewsEasy extends \Contao\Backend {
         $this->import('BackendUser', 'User');
         parent::__construct();
 
-        if (!$this->User->hasAccess('news') || $this->User->newsEasyEnable != 1) {
+        if (!$this->User->hasAccess('create', 'newp') || $this->User->newsEasyEnable != 1) {
             $this->blnNewsEasyEnabled = false;
         }
     }
@@ -48,8 +48,8 @@ class NewsEasy extends \Contao\Backend {
         }
 
         if ($this->User->newsEasyEnable == 1) {
-            $GLOBALS['TL_CSS'][] = 'system/modules/mhgNewsEasy/assets/css/backend.css?v=' . time() . '|screen';
-            $GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/mhgNewsEasy/assets/js/backend.js?v=' . time();
+            $GLOBALS['TL_CSS'][] = 'system/modules/mhgNewsEasy/assets/css/backend.css|screen';
+            $GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/mhgNewsEasy/assets/js/backend.js';
 
             \System::loadLanguageFile('tl_news_archive');
         }

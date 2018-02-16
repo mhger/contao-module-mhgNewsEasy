@@ -65,7 +65,7 @@ class tl_user_newseasy extends Backend {
                 continue;
             }
 
-            if (BackendUser::getInstance()->hasAccess('news', 'news_archives')) {
+            if (BackendUser::getInstance()->hasAccess('create', 'newp')) {
                 $arrPalettes = explode(';', $v);
                 $arrPalettes[] = '{newsEasy_legend},newsEasyEnable;';
                 $GLOBALS['TL_DCA']['tl_user']['palettes'][$palette] = implode(';', $arrPalettes);

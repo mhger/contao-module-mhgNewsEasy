@@ -1,20 +1,14 @@
 var NewsEasy = new Class({
-
-    Implements: [ Options ],
-
+    Implements: [Options],
     options: {
         mode: 'inject',
         delay: 500
     },
-
     container: null,
     newsSection: null,
     newsHandle: null,
-    intTimeoutId: 0,
-    shouldRun: true,
     isCollapsed: null,
     newsSectionLoaded: false,
-
     initialize: function (options) {
         var self = this;
         this.setOptions(options);
@@ -42,7 +36,6 @@ var NewsEasy = new Class({
 
         this.init();
     },
-
     init: function () {
         var self = this;
 
@@ -51,8 +44,7 @@ var NewsEasy = new Class({
             this.newsHandle = $$('#tl_navigation a.news')[0].getParent('li');
             this.container.inject(this.newsHandle);
             this.container.removeClass('newseasy_doNotLaunch');
-        }
-        else {
+        } else {
             this.container.addClass('newseasy_doNotLaunch');
             return;
         }
