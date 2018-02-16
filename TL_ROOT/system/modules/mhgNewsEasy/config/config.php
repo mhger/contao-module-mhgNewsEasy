@@ -12,13 +12,9 @@
 /**
  * Register backend hooks
  */
-if (TL_MODE == 'BE') {
-    if (!(($_GET['do'] == 'repository_manager' && $_GET['uninstall'] == 'mhgNewsEasy') ||
-            (strpos($_SERVER['PHP_SELF'], 'contao/install.php') !== false))) {
-
-        $GLOBALS['TL_HOOKS']['parseBackendTemplate'][] = array('mhg\NewsEasy', 'parseBackendTemplate');
-        $GLOBALS['TL_HOOKS']['loadLanguageFile']['NewsEasyHook'] = array('mhg\NewsEasy', 'loadLanguageFileHook');
-        $GLOBALS['TL_HOOKS']['getUserNavigation'][] = array('mhg\NewsEasy', 'getUserNavigationHook');
-        $GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('mhg\NewsEasy', 'loadDataContainerHook');
-    }
+if (TL_MODE == 'BE' && Input::get('do') !== 'repository_manager' && Input::get('uninstall') !== 'mhgNewsEasy') {
+    $GLOBALS['TL_HOOKS']['parseBackendTemplate'][] = array('mhg\NewsEasy', 'parseBackendTemplate');
+    $GLOBALS['TL_HOOKS']['loadLanguageFile']['NewsEasyHook'] = array('mhg\NewsEasy', 'loadLanguageFileHook');
+    $GLOBALS['TL_HOOKS']['getUserNavigation'][] = array('mhg\NewsEasy', 'getUserNavigationHook');
+    $GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('mhg\NewsEasy', 'loadDataContainerHook');
 }

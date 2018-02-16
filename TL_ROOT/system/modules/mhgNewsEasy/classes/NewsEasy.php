@@ -68,7 +68,7 @@ class NewsEasy extends \Contao\Backend {
      * @return  string
      */
     public function parseBackendTemplate($strContent, $strTemplate) {
-        if (!$this->blnNewsEasyEnabled) {
+        if (!$this->blnNewsEasyEnabled || $this->User->newsEasyMode !== 'inject') {
             return $strContent;
         }
 
