@@ -8,7 +8,7 @@
     <?php endforeach; ?>
 </ul>
 
-<?php if ($this->mode === 'inject'): ?>
+<?php if($this->mode === 'inject'): ?>
 <script>
     window.addEvent('domready', function () {
         new NewsEasy({
