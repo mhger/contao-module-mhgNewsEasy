@@ -11,6 +11,7 @@ Inspiration: [easy_themes] by <http://www.terminal42.ch>
 
 
 ### Dependencies
+- [news]
 - [mhgCore]
 
 

@@ -1,0 +1,31 @@
+
+#tl_navigation li {
+    position: relative;
+}
+
+#tl_navigation .newseasy_inject {
+    margin-bottom: 10px;
+}
+
+#tl_navigation .newseasy_inject li {
+    padding: 0 0 0 20px;
+    overflow: hidden;
+    width: auto;
+}
+
+#tl_navigation .newseasy_inject li a {
+    padding-left: 16px;
+}
+
+#newseasy,
+#newseasy.newseasy_doNotLaunch {
+    display: none;
+}
+
+#newseasy.ready {
+    display: block;
+}
+
+a.navigation.newsArchive {
+    background-image: url('../img/edit.gif');
+}

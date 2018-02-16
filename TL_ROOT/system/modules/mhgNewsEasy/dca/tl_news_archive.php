@@ -1,36 +1,36 @@
 <?php
-
 /**
  * Contao 3 Extension [mhgNewsEasy]
  *
- * Copyright (c) 2016 Medienhaus Gersöne UG | Pierre Gersöne
+ * Copyright (c) 2018 Medienhaus Gersöne UG (haftungsbeschränkt) | Pierre Gersöne
  *
  * @package     mhgNewsEasy
- * @link        http://www.medienhaus-gersoene.de
- * @license     propitary licence
+ * @author      Pierre Gersöne <mail@medienhaus-gersoene.de>
+ * @link        https://www.medienhaus-gersoene.de Medienhaus Gersöne - Agentur für Neue Medien: Web, Design & Marketing
+ * @license     LGPL-3.0+
  */
 /**
- * Table tl_news_archive
+ * alter DCA palettes
  */
-// modify palette
-$GLOBALS['TL_DCA']['tl_news_archive']['palettes']['default'] = '{title_legend},title,jumpTo;{newseasy_legend},ne_shorttitle,ne_stealth;{protected_legend:hide},protected;{comments_legend:hide},allowComments';
+mhg\Dca::modifyPalettes('jumpTo;', 'jumpTo;{newsEasy_legend},newsEasyTitle,newsEasyHide;', 'tl_news_archive');
 
-// add fields
-$GLOBALS['TL_DCA']['tl_news_archive']['fields']['ne_shorttitle'] = array
-    (
-    'label' => &$GLOBALS['TL_LANG']['tl_news_archive']['ne_shorttitle'],
+
+/**
+ * add DCA fields
+ */
+mhg\Dca::addField('tl_news_archive', 'newsEasyTitle', array(
+    'label' => &$GLOBALS['TL_LANG']['tl_news_archive']['newsEasyTitle'],
     'exclude' => true,
     'search' => true,
     'inputType' => 'text',
     'eval' => array('mandatory' => false, 'decodeEntities' => true, 'maxlength' => 100, 'tl_class' => 'w50'),
     'sql' => "varchar(100) NOT NULL default ''"
-);
+));
 
-$GLOBALS['TL_DCA']['tl_news_archive']['fields']['ne_stealth'] = array
-    (
-    'label' => &$GLOBALS['TL_LANG']['tl_news_archive']['ne_stealth'],
+mhg\Dca::addField('tl_news_archive', 'newsEasyHide', array(
+    'label' => &$GLOBALS['TL_LANG']['tl_news_archive']['newsEasyHide'],
     'exclude' => true,
     'inputType' => 'checkbox',
-    'eval' => array('tl_class' => 'tl_checkbox_single_container clr'),
+    'eval' => array('tl_class' => 'w50 clr'),
     'sql' => "char(1) NOT NULL default '0'"
-);
+));

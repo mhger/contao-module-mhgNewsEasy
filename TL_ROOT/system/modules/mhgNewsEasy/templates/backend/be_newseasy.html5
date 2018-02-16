@@ -1,0 +1,20 @@
+<ul id="newseasy" class="<?= $this->class ?> newseasy_<?= $this->mode; ?>">
+    <?php foreach($this->archives as $arrArchive): ?>
+    <li class="<?= $this->class ?>_link">
+        <a class="<?= $arrArchive['class']; ?>" href="<?= $arrArchive['href']; ?>" title="<?= $arrArchive['title']; ?>" <?= $arrArchive['icon']; ?>>
+            <?= $arrArchive['label']; ?>
+        </a>
+    </li>
+    <?php endforeach; ?>
+</ul>
+
+<?php if ($this->mode != 'mod'): ?>
+<script>
+    window.addEvent('domready', function () {
+        new NewsEasy({
+            mode: '<?= $this->mode; ?>',
+            delay: 500
+        });
+    });
+</script>
+<?php endif; ?>

@@ -2,24 +2,18 @@
 /**
  * Contao 3 Extension [mhgNewsEasy]
  *
- * Copyright (c) 2016 Medienhaus Gersöne UG | Pierre Gersöne
+ * Copyright (c) 2018 Medienhaus Gersöne UG (haftungsbeschränkt) | Pierre Gersöne
  *
  * @package     mhgNewsEasy
- * @link        http://www.medienhaus-gersoene.de
- * @license     propitary licence
+ * @author      Pierre Gersöne <mail@medienhaus-gersoene.de>
+ * @link        https://www.medienhaus-gersoene.de Medienhaus Gersöne - Agentur für Neue Medien: Web, Design & Marketing
+ * @license     LGPL-3.0+
  */
-
-
-/**
- * Register the namespaces
- */
-ClassLoader::addNamespace('mhg');
-
 /**
  * Register the classes
  */
-ClassLoader::addClasses(array
-(
+ClassLoader::addClasses(array(
+    // Classes
     'mhg\NewsEasy' => 'system/modules/mhgNewsEasy/classes/NewsEasy.php',
 ));
 
@@ -27,7 +21,7 @@ ClassLoader::addClasses(array
 /**
  * Register the templates
  */
-TemplateLoader::addFiles(array
-(
-    'be_newseasy' => 'system/modules/mhgNewsEasy/templates',
+TemplateLoader::addFiles(array(
+    // Backend
+    'be_newseasy' => 'system/modules/mhgNewsEasy/templates/backend',
 ));

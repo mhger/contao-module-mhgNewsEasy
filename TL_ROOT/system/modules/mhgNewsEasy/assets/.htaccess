@@ -1,9 +1,7 @@
 <IfModule !mod_authz_core.c>
   Order allow,deny
   Allow from all
-  Satisfy any
 </IfModule>
 <IfModule mod_authz_core.c>
   Require all granted
-  Satisfy any
 </IfModule>
