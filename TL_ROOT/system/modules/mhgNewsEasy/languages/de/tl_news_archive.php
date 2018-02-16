@@ -15,7 +15,7 @@
 $GLOBALS['TL_LANG']['tl_news_archive']['newsArchives'] = 'Nachrichtenarchive';
 $GLOBALS['TL_LANG']['tl_news_archive']['newsEasy_legend'] = 'NewsEasy-Einstellungen';
 /**
- * Table tl_news_archive
+ * Fields
  */
 $GLOBALS['TL_LANG']['tl_news_archive']['newsEasyTitle'] = array('Interner Titel für NewsEasy', 'Individueller Kurztitel für die Anzeige im Menü.');
 $GLOBALS['TL_LANG']['tl_news_archive']['newsEasyHide'] = array('Nachrichtenarchiv verstecken', 'Dieses Nachrichtenarchiv in der Kurzansicht nicht anzeigen.');
