@@ -13,7 +13,7 @@
  * Register backend hooks
  */
 if (TL_MODE == 'BE') {
-    if (!(($_GET['do'] == 'repository_manager' && $_GET['uninstall'] == 'newseasy') ||
+    if (!(($_GET['do'] == 'repository_manager' && $_GET['uninstall'] == 'mhgNewsEasy') ||
             (strpos($_SERVER['PHP_SELF'], 'contao/install.php') !== false))) {
 
         $GLOBALS['TL_HOOKS']['parseBackendTemplate'][] = array('mhg\NewsEasy', 'parseBackendTemplate');
