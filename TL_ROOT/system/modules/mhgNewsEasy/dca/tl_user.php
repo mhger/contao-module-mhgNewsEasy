@@ -20,14 +20,16 @@ $GLOBALS['TL_DCA']['tl_user']['config']['onload_callback'][] = array('tl_user_ne
  */
 mhg\Dca::addField('tl_user', 'newsEasyEnable', array(
     'label' => &$GLOBALS['TL_LANG']['tl_user']['newsEasyEnable'],
+    'default' => '',
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => array('submitOnChange' => true, 'tl_class' => 'tl_checkbox_single_container'),
-    'sql' => "char(1) NOT NULL default '0'"
+    'sql' => "char(1) NOT NULL default ''"
 ));
 
 mhg\Dca::addField('tl_user', 'newsEasyMode', array(
     'label' => &$GLOBALS['TL_LANG']['tl_user']['newsEasyMode'],
+    'default' => 'inject',
     'exclude' => true,
     'inputType' => 'select',
     'options' => array('inject', 'mod'),
@@ -53,34 +55,32 @@ mhg\Dca::addField('tl_user', 'newsEasyReference', array(
 class tl_user_newseasy extends Backend {
 
     /**
-     * Build the palette string
-     * @param DataContainer
+     * Build the DCA palette string
+     * 
+     * @param   object $dc DataContainer
+     * @return  void
      */
     public function buildPalette(DataContainer $dc) {
         $objUser = \Database::getInstance()->prepare('SELECT * FROM tl_user WHERE id=?')
                 ->execute($dc->id);
 
-        foreach ($GLOBALS['TL_DCA']['tl_user']['palettes'] as $palette => $v) {
-            if ($palette == '__selector__') {
-                continue;
-            }
-
-            if (BackendUser::getInstance()->hasAccess('create', 'newp')) {
-                $arrPalettes = explode(';', $v);
-                $arrPalettes[] = '{newsEasy_legend},newsEasyEnable;';
-                $GLOBALS['TL_DCA']['tl_user']['palettes'][$palette] = implode(';', $arrPalettes);
-            }
+        // alter DCA pallettes 
+        if (BackendUser::getInstance()->hasAccess('create', 'newp')) {
+            mhg\Dca::appendPalettes('{newsEasy_legend},newsEasyEnable;', 'tl_user');
         }
 
-        // extend selector
-        $GLOBALS['TL_DCA']['tl_user']['palettes']['__selector__'][] = 'newsEasyEnable';
+        // add selector
+        mhg\Dca::addSelector('newsEasyEnable', 'tl_user');
 
-        // extend subpalettes
-        $strSubpalette = 'newsEasyMode';
+        // extend subpalette if enabled
+        if ($objUser->newsEasyEnable) {
+            $strSubpalette = 'newsEasyMode';
 
-        if ($objUser->newsEasyMode == 'mod') {
-            $strSubpalette .= ',newsEasyReference';
+            if ($objUser->newsEasyMode == 'mod') {
+                $strSubpalette.= ',newsEasyReference';
+            }
+
+            mhg\Dca::appendPalettes($strSubpalette, 'tl_user', 'newsEasyEnable', true);
         }
-        $GLOBALS['TL_DCA']['tl_user']['subpalettes']['newsEasyEnable'] = $strSubpalette;
     }
 }

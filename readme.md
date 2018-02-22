@@ -3,6 +3,7 @@
 This extension adds easy access links for news archives to the Contao backend.
 
 Idea and realisation: <https://www.medienhaus-gersoene.de>
+
 Inspiration: [easy_themes] by <http://www.terminal42.ch>
 
 
