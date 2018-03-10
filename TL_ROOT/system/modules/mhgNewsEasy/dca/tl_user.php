@@ -10,10 +10,9 @@
  * @license     LGPL-3.0+
  */
 /**
- * Modify DCA palette
+ * alter DCA palette
  */
 $GLOBALS['TL_DCA']['tl_user']['config']['onload_callback'][] = array('tl_user_newseasy', 'buildPalette');
-
 
 /**
  * add DCA fields
@@ -66,11 +65,11 @@ class tl_user_newseasy extends Backend {
 
         // alter DCA pallettes 
         if (BackendUser::getInstance()->hasAccess('create', 'newp')) {
-            mhg\Dca::appendPalettes('{newsEasy_legend},newsEasyEnable;', 'tl_user');
+            mhg\Dca::appendPalettes('tl_user', '{newsEasy_legend},newsEasyEnable;');
         }
 
         // add selector
-        mhg\Dca::addSelector('newsEasyEnable', 'tl_user');
+        mhg\Dca::addSelector('tl_user', 'newsEasyEnable');
 
         // extend subpalette if enabled
         if ($objUser->newsEasyEnable) {
@@ -80,7 +79,7 @@ class tl_user_newseasy extends Backend {
                 $strSubpalette.= ',newsEasyReference';
             }
 
-            mhg\Dca::appendPalettes($strSubpalette, 'tl_user', 'newsEasyEnable', true);
+            mhg\Dca::appendPalettes('tl_user', $strSubpalette, 'newsEasyEnable', true);
         }
     }
 }
