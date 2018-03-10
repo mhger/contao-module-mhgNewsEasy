@@ -12,7 +12,7 @@
 /**
  * alter DCA palettes
  */
-mhg\Dca::modifyPalettes('jumpTo;', 'jumpTo;{newsEasy_legend},newsEasyTitle,newsEasyHide;', 'tl_news_archive');
+mhg\Dca::alterPalettes('tl_news_archive', 'jumpTo;', 'jumpTo;{newsEasy_legend},newsEasyTitle,newsEasyHide;');
 
 
 /**
